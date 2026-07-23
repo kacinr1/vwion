@@ -1,11 +1,9 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import ScrollReveal from '@/components/ScrollReveal'
 import { useLang } from '@/context/LanguageContext'
-
-const BRANDS = ['Rolex', 'Patek Philippe', 'Audemars Piguet', 'Vacheron Constantin', 'Richard Mille', 'A. Lange & Söhne']
+import PolissageHero from '@/components/PolissageHero'
 
 const WATCH_SVG_BEFORE = (
   <svg viewBox="0 0 200 260" className="w-full h-full" fill="none">
@@ -65,146 +63,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background glow */}
-        <div className="absolute inset-0 bg-obsidian">
-          <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-gold/3 rounded-full blur-3xl" />
-        </div>
-
-        {/* Fine grid */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'linear-gradient(#C9A84C 1px, transparent 1px), linear-gradient(90deg, #C9A84C 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center pt-20">
-          {/* Text */}
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-3 mb-8"
-            >
-              <span className="w-8 h-px bg-gold" />
-              <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">{t.hero.badge}</span>
-              <span className="w-8 h-px bg-gold" />
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-5xl md:text-7xl font-serif font-light leading-tight text-cream mb-6"
-            >
-              {t.hero.title}
-              <br />
-              <span
-                className="font-normal"
-                style={{
-                  background: 'linear-gradient(135deg, #E8C96A 0%, #C9A84C 50%, #8B6914 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                {t.hero.titleAccent}
-              </span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-cream-muted text-lg leading-relaxed font-sans mb-10 max-w-md"
-            >
-              {t.hero.subtitle}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="flex flex-wrap gap-4"
-            >
-              <Link
-                href="/services"
-                className="px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-semibold text-obsidian bg-gold hover:bg-gold-light transition-all duration-300"
-                style={{ boxShadow: '0 8px 30px rgba(201,168,76,0.2)' }}
-              >
-                {t.hero.cta}
-              </Link>
-              <Link
-                href="/tarifs"
-                className="px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-semibold text-gold border border-gold/50 hover:border-gold hover:bg-gold/5 transition-all duration-300"
-              >
-                {t.hero.ctaSecondary}
-              </Link>
-            </motion.div>
-
-            {/* Brands */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="mt-12"
-            >
-              <p className="text-[9px] tracking-[0.3em] uppercase text-cream-muted font-sans mb-4">{t.hero.brands}</p>
-              <div className="flex flex-wrap gap-3">
-                {BRANDS.map((b) => (
-                  <span key={b} className="text-[10px] tracking-widest text-cream-muted border border-gold/15 px-3 py-1.5 font-sans">
-                    {b}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Watch visual */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="flex justify-center"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gold/10 blur-3xl rounded-full scale-75" />
-              <div className="relative w-64 h-80">
-                {WATCH_SVG_AFTER}
-              </div>
-              {/* Floating badge */}
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-                className="absolute -bottom-4 -right-4 bg-obsidian-card border border-gold/30 px-4 py-2.5 text-center"
-              >
-                <p className="text-[8px] tracking-widest uppercase text-gold font-sans">Swiss Made</p>
-                <p className="text-lg font-serif text-cream">Excellence</p>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <span className="text-[8px] tracking-[0.4em] uppercase text-gold/50 font-sans">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-            className="w-px h-8 bg-gradient-to-b from-gold/50 to-transparent"
-          />
-        </motion.div>
-      </section>
+      <PolissageHero />
 
       {/* ── INTRO ── */}
       <section className="py-32 px-6 bg-obsidian-soft">

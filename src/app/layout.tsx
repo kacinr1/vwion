@@ -1,8 +1,16 @@
 import type { Metadata } from 'next'
+import { Montserrat } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from '@/context/LanguageContext'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['100', '200', '300'],
+  variable: '--font-montserrat',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'VWION — Atelier Horloger d\'Excellence · Suisse',
@@ -12,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={montserrat.variable}>
       <body className="min-h-screen flex flex-col bg-obsidian text-cream">
         <LanguageProvider>
           <Navigation />
