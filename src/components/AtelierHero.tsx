@@ -4,12 +4,6 @@ import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
 import Link from 'next/link'
 
-const PLAN1 =
-  'https://cms-toolkit-artifacts.artlist.io/content/-t-e-x-t_-t-o_-i-m-a-g-e-v1/media__7/-t-e-x-t_-t-o_-i-m-a-g-e-cf38251f-8f59-4979-a9db-6347e70e3b2b.png?Expires=2100209318&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=u1zP7RjxthCWgGrrwLxH4fuNt1hcXeEfGStzgMN4-Oudy3yju-c9gL~fWuFni~mtbW3~BNlPHGoV9lj61JSqIawHuE4~m9QbyCMS1Y7sMyqvmvw3CrEjIIlcDe47mty~1w7DGqBlq6cGVdvMwVL2PVcc8dscMkH5Hs-lCrNuFlyzNJLWpKRnLd6Jsmzq2ixRLA44uIfeJe1o3cLuYMiXnrxDxPv-Y1CtcamN-aQRduNx4UaV8IX~9IXyZeWN1AgrJQhAowVS0IJMnqz~V9iU8KSm2zTiFx2XqFQnaB04I~WHWu6mCZeyqlYFYaU7PIoLqlDLsVu9sxlQTrpQMdPpBA__'
-
-const PLAN2 =
-  'https://cms-toolkit-artifacts.artlist.io/content/-t-e-x-t_-t-o_-i-m-a-g-e-v1/media__5/-t-e-x-t_-t-o_-i-m-a-g-e-af4233e2-83b8-4484-a794-b1c9b34f762f.png?Expires=2100209362&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=xVWmNnLEuViP1tgiRxECCKnSGsPIdiAPAogcfJlgfaTp990891VQ5HegwategD45CjivLRzr-3iNr-BGcz3~hNr3aF-f91FKVaWpTc9Pr1vSRKmlRMgmCSZUpUBkQ4ooY8v~hK5ElRbeyOfoV4eMVMAfq6IJPADNX1oo5OEp-yamtttzTXl83ENpEQWzYn8lQiMIZLq~75LYPUakM1Q7CE4WvrjCtZU2maYEhG0zDmn9hASTk7fcWHKSYklgpA-m-bq6ZsrSqabATf2Z3TQzj5YZyKyClQKj4dPzSk0zB-bOunaf3nAAixbcz2D7r3xSLE3qHZHlYyYYQA3nMuk2mA__'
-
 const MONTSERRAT: React.CSSProperties = {
   fontFamily: 'var(--font-montserrat, "Helvetica Neue", Helvetica, sans-serif)',
   fontWeight: 100,
@@ -29,8 +23,6 @@ const PARTICLES = [
   { id: 9,  x: '82%', y: '26%', s: 1.1, o: 0.38, d: 9,  dl: 0.4 },
   { id: 10, x: '32%', y: '65%', s: 1.9, o: 0.48, d: 7,  dl: 1.9 },
   { id: 11, x: '56%', y: '48%', s: 1.4, o: 0.55, d: 5,  dl: 2.5 },
-  { id: 12, x: '70%', y: '36%', s: 1.7, o: 0.42, d: 8,  dl: 0.6 },
-  { id: 13, x: '88%', y: '58%', s: 1.2, o: 0.50, d: 6,  dl: 3.2 },
 ]
 
 const WELCOME = 'Bienvenue chez les'
@@ -50,13 +42,13 @@ function LetterReveal({
       {text.split('').map((char, i) => (
         <motion.span
           key={i}
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: delay + i * 0.034, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: delay + i * 0.034, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           className={className}
           style={MONTSERRAT}
         >
-          {char === ' ' ? ' ' : char}
+          {char}
         </motion.span>
       ))}
     </div>
@@ -69,59 +61,64 @@ export default function AtelierHero() {
   const [showWelcome, setShowWelcome] = useState(false)
 
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    setShowWelcome(v > 0.90)
+    setShowWelcome(v > 0.91)
   })
 
-  // ── Opacités des plans ──
-  const p1Opacity     = useTransform(scrollYProgress, [0, 0.22, 0.40], [1, 1, 0])
-  const p2Opacity     = useTransform(scrollYProgress, [0.20, 0.38, 0.64, 0.80], [0, 1, 1, 0])
-  const p3Opacity     = useTransform(scrollYProgress, [0.62, 0.80, 0.88], [0, 1, 1])
+  // ── Travelling: une seule image, 3 états de zoom/pan ──
+  // Plan 1 (0→33%) : vue large, légère dérive Ken Burns vers le bas-droite
+  // Plan 2 (33→66%): zoom modéré, pan vers la pendule (centre)
+  // Plan 3 (66→90%): zoom rapproché sur la pendule, très centré
 
-  // ── Scales (travelling en avant) ──
-  const p1Scale       = useTransform(scrollYProgress, [0, 0.40], [1.0, 1.08])
-  const p2Scale       = useTransform(scrollYProgress, [0.20, 0.80], [1.0, 1.10])
-  const p3Scale       = useTransform(scrollYProgress, [0.62, 0.98], [1.12, 1.32])
+  const scale       = useTransform(scrollYProgress, [0, 0.45, 0.88], [1.0, 1.18, 1.42])
+  // Dérive horizontale : depuis légèrement à gauche vers le centre (pendule)
+  const translateX  = useTransform(scrollYProgress, [0, 0.45, 0.88], ['-3%', '0%', '2%'])
+  // Dérive verticale : depuis légèrement vers le bas vers le haut (vers la pendule)
+  const translateY  = useTransform(scrollYProgress, [0, 0.45, 0.88], ['2%', '0%', '-4%'])
 
-  // ── Rayon de lumière ──
-  const rayOpacity    = useTransform(scrollYProgress, [0, 0.45, 0.88], [0.55, 0.85, 0.30])
+  // ── Rayon de lumière depuis la fenêtre gauche ──
+  const rayOpacity  = useTransform(scrollYProgress, [0, 0.40, 0.88], [0.60, 0.90, 0.25])
 
-  // ── Badge VWION ──
-  const badgeOpacity  = useTransform(scrollYProgress, [0, 0.06, 0.82, 0.88], [0, 0.8, 0.8, 0])
+  // ── Badge VWION pendant le travelling ──
+  const badgeOp     = useTransform(scrollYProgress, [0, 0.06, 0.82, 0.88], [0, 0.85, 0.85, 0])
 
-  // ── Overlay noir + hint de scroll ──
-  const overlayOp     = useTransform(scrollYProgress, [0.82, 0.94], [0, 1])
-  const scrollHintOp  = useTransform(scrollYProgress, [0, 0.07], [1, 0])
+  // ── Fondu final : progressif et long (pas d'arrêt net) ──
+  // Commence à 0.72 et finit à 0.95 → 23% de scroll = fondu très doux
+  const overlayOp   = useTransform(scrollYProgress, [0.72, 0.95], [0, 1])
+
+  // ── Hint "Entrez" disparaît vite ──
+  const scrollHintOp = useTransform(scrollYProgress, [0, 0.07], [1, 0])
 
   return (
     <div ref={containerRef} style={{ height: '500vh' }} className="relative">
       <div className="sticky top-0 h-screen overflow-hidden bg-obsidian">
 
-        {/* ── PLAN 1 · seuil de la porte ── */}
+        {/* ── IMAGE UNIQUE, 3 ÉTATS DE ZOOM/PAN PAR SCROLL ── */}
         <motion.div
           className="absolute inset-0"
-          style={{ opacity: p1Opacity, scale: p1Scale, willChange: 'transform, opacity' }}
+          style={{
+            scale,
+            x: translateX,
+            y: translateY,
+            willChange: 'transform',
+          }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={PLAN1} alt="Atelier VWION — entrée" className="w-full h-full object-cover" loading="eager" />
+          <img
+            src="/atelier.png"
+            alt="Atelier VWION — Genève"
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
         </motion.div>
 
-        {/* ── PLAN 2 · milieu de l'atelier ── */}
-        <motion.div
-          className="absolute inset-0"
-          style={{ opacity: p2Opacity, scale: p2Scale, willChange: 'transform, opacity' }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={PLAN2} alt="Atelier VWION — intérieur" className="w-full h-full object-cover" />
-        </motion.div>
-
-        {/* ── PLAN 3 · zoom pendule (Plan 2 agrandi, CSS) ── */}
-        <motion.div
-          className="absolute inset-0"
-          style={{ opacity: p3Opacity, scale: p3Scale, willChange: 'transform, opacity' }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={PLAN2} alt="Atelier VWION — pendule or" className="w-full h-full object-cover" />
-        </motion.div>
+        {/* ── OVERLAY SOMBRE EN BAS (profondeur) ── */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(10,10,10,0.55) 0%, transparent 40%), linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, transparent 25%)',
+          }}
+        />
 
         {/* ── RAYON DE LUMIÈRE (fenêtre gauche) ── */}
         <motion.div
@@ -130,11 +127,11 @@ export default function AtelierHero() {
         >
           <motion.div
             className="absolute inset-0"
-            animate={{ opacity: [0.8, 1, 0.8] }}
+            animate={{ opacity: [0.85, 1, 0.85] }}
             transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }}
             style={{
               background:
-                'linear-gradient(108deg, rgba(255,210,100,0) 5%, rgba(255,210,100,0.11) 20%, rgba(255,210,100,0.04) 38%, transparent 55%)',
+                'linear-gradient(112deg, rgba(255,215,100,0) 5%, rgba(255,215,100,0.10) 22%, rgba(255,215,100,0.03) 40%, transparent 58%)',
             }}
           />
         </motion.div>
@@ -151,7 +148,7 @@ export default function AtelierHero() {
               height: `${p.s}px`,
               backgroundColor: '#C9A84C',
             }}
-            animate={{ y: [0, -18, -48], x: [0, 3, -2], opacity: [0, p.o, 0] }}
+            animate={{ y: [0, -20, -52], x: [0, 3, -2], opacity: [0, p.o, 0] }}
             transition={{ repeat: Infinity, duration: p.d, delay: p.dl, ease: 'easeOut' }}
           />
         ))}
@@ -160,7 +157,7 @@ export default function AtelierHero() {
         <svg
           aria-hidden="true"
           className="absolute inset-0 w-full h-full pointer-events-none z-30"
-          style={{ opacity: 0.038, mixBlendMode: 'overlay' }}
+          style={{ opacity: 0.036, mixBlendMode: 'overlay' }}
         >
           <filter id="vwion-grain">
             <feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="4" stitchTiles="stitch" />
@@ -169,23 +166,34 @@ export default function AtelierHero() {
           <rect width="100%" height="100%" filter="url(#vwion-grain)" />
         </svg>
 
-        {/* ── BADGE VWION (visible pendant le travelling) ── */}
+        {/* ── BADGE VWION ── */}
         <motion.div
-          style={{ opacity: badgeOpacity }}
+          style={{ opacity: badgeOp }}
           className="absolute top-7 left-1/2 -translate-x-1/2 z-40 flex items-center gap-4 pointer-events-none select-none"
         >
           <span className="w-8 h-px bg-gold/50" />
-          <span className="text-[7px] tracking-[0.6em] uppercase text-gold/70 font-sans">
+          <span className="text-[7px] tracking-[0.6em] uppercase text-gold/75 font-sans drop-shadow-lg">
             VWION · Atelier Horloger · Genève
           </span>
           <span className="w-8 h-px bg-gold/50" />
         </motion.div>
 
-        {/* ── OVERLAY NOIR ── */}
+        {/* ── FONDU FINAL PROGRESSIF (pas d'arrêt net) ──
+             Commence à 72% du scroll → image fond doucement en obsidian ── */}
         <motion.div
           style={{ opacity: overlayOp }}
-          className="absolute inset-0 bg-obsidian z-40 pointer-events-none"
-        />
+          className="absolute inset-0 z-40 pointer-events-none"
+        >
+          <div className="absolute inset-0 bg-obsidian" />
+          {/* Halo or subtil au centre pour que le fondu soit doré, pas juste noir */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse 60% 50% at 55% 50%, rgba(201,168,76,0.05) 0%, transparent 70%)',
+            }}
+          />
+        </motion.div>
 
         {/* ── BIENVENUE (lettre par lettre) ── */}
         {showWelcome && (
@@ -193,7 +201,7 @@ export default function AtelierHero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.6 }}
               className="flex items-center gap-5 mb-10 select-none"
             >
               <span className="w-12 h-px bg-gold/40" />
@@ -205,21 +213,21 @@ export default function AtelierHero() {
 
             <LetterReveal
               text={WELCOME}
-              className="text-3xl md:text-5xl lg:text-[3.6rem] text-cream"
+              className="text-3xl md:text-5xl lg:text-[3.4rem] text-cream"
               delay={0}
             />
             <div className="h-3" />
             <LetterReveal
               text={SUBTITLE}
-              className="text-3xl md:text-5xl lg:text-[3.6rem] text-gold"
-              delay={WELCOME.length * 0.034 + 0.18}
+              className="text-3xl md:text-5xl lg:text-[3.4rem] text-gold"
+              delay={WELCOME.length * 0.034 + 0.2}
             />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                delay: (WELCOME.length + SUBTITLE.length) * 0.034 + 0.6,
+                delay: (WELCOME.length + SUBTITLE.length) * 0.034 + 0.65,
                 duration: 0.9,
                 ease: [0.16, 1, 0.3, 1],
               }}
@@ -242,12 +250,12 @@ export default function AtelierHero() {
           </div>
         )}
 
-        {/* ── INDICATEUR SCROLL ── */}
+        {/* ── INDICATEUR SCROLL "Entrez" ── */}
         <motion.div
           style={{ opacity: scrollHintOp }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2 pointer-events-none select-none"
         >
-          <span className="text-[7px] tracking-[0.55em] uppercase text-gold/40 font-sans">Entrez</span>
+          <span className="text-[7px] tracking-[0.55em] uppercase text-gold/45 font-sans">Entrez</span>
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
