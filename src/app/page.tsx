@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import ScrollReveal from '@/components/ScrollReveal'
 import { useLang } from '@/context/LanguageContext'
-import PolissageHero from '@/components/PolissageHero'
+import AtelierHero from '@/components/AtelierHero'
 
 const WATCH_SVG_BEFORE = (
   <svg viewBox="0 0 200 260" className="w-full h-full" fill="none">
@@ -63,7 +63,7 @@ export default function HomePage() {
 
   return (
     <>
-      <PolissageHero />
+      <AtelierHero />
 
       {/* ── INTRO ── */}
       <section className="py-32 px-6 bg-obsidian-soft">
