@@ -64,16 +64,12 @@ export default function AtelierHero() {
     setShowWelcome(v > 0.91)
   })
 
-  // ── Travelling: une seule image, 3 états de zoom/pan ──
-  // Plan 1 (0→33%) : vue large, légère dérive Ken Burns vers le bas-droite
-  // Plan 2 (33→66%): zoom modéré, pan vers la pendule (centre)
-  // Plan 3 (66→90%): zoom rapproché sur la pendule, très centré
-
-  const scale       = useTransform(scrollYProgress, [0, 0.45, 0.88], [1.0, 1.18, 1.42])
-  // Dérive horizontale : depuis légèrement à gauche vers le centre (pendule)
-  const translateX  = useTransform(scrollYProgress, [0, 0.45, 0.88], ['-3%', '0%', '2%'])
-  // Dérive verticale : depuis légèrement vers le bas vers le haut (vers la pendule)
-  const translateY  = useTransform(scrollYProgress, [0, 0.45, 0.88], ['2%', '0%', '-4%'])
+  // ── Changement d'angle vers la fenêtre gauche (pas de zoom) ──
+  // Effet : on se déplace vers la fenêtre → pan droit + rotateY négatif
+  // rotateY négatif = côté gauche (fenêtre, lac Léman) se rapproche
+  const rotateY    = useTransform(scrollYProgress, [0, 0.88], [0, -9])
+  const translateX = useTransform(scrollYProgress, [0, 0.88], ['0%', '9%'])
+  const translateY = useTransform(scrollYProgress, [0, 0.88], ['0%', '-1.5%'])
 
   // ── Rayon de lumière depuis la fenêtre gauche ──
   const rayOpacity  = useTransform(scrollYProgress, [0, 0.40, 0.88], [0.60, 0.90, 0.25])
@@ -90,15 +86,17 @@ export default function AtelierHero() {
 
   return (
     <div ref={containerRef} style={{ height: '500vh' }} className="relative">
-      <div className="sticky top-0 h-screen overflow-hidden bg-obsidian">
+      {/* perspective sur le parent = vrai changement d'angle 3D */}
+      <div className="sticky top-0 h-screen overflow-hidden bg-obsidian" style={{ perspective: '1400px' }}>
 
-        {/* ── IMAGE UNIQUE, 3 ÉTATS DE ZOOM/PAN PAR SCROLL ── */}
+        {/* ── IMAGE UNIQUE — ANGLE CHANGE VERS LA FENÊTRE ── */}
         <motion.div
           className="absolute inset-0"
           style={{
-            scale,
+            rotateY,
             x: translateX,
             y: translateY,
+            scale: 1.08,        // légère marge statique pour que les bords ne se voient pas pendant la rotation
             willChange: 'transform',
           }}
         >
