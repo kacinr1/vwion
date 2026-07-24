@@ -4,6 +4,7 @@ import Link from 'next/link'
 import ScrollReveal from '@/components/ScrollReveal'
 import { useLang } from '@/context/LanguageContext'
 import AtelierHero from '@/components/AtelierHero'
+import ClockIntro from '@/components/ClockIntro'
 
 const WATCH_SVG_BEFORE = (
   <svg viewBox="0 0 200 260" className="w-full h-full" fill="none">
@@ -63,6 +64,7 @@ export default function HomePage() {
 
   return (
     <>
+      <ClockIntro />
       <AtelierHero />
 
       {/* ── INTRO ── */}
