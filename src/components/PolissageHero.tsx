@@ -4,7 +4,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 
-const SECTIONS = [
+export const SECTIONS = [
   {
     id: 'boitier',
     label: 'BOÎTIER',
@@ -66,7 +66,7 @@ const GOLD_GRADIENT: React.CSSProperties = {
   backgroundClip: 'text',
 }
 
-function VideoSection({ section }: { section: Section }) {
+export function VideoSection({ section }: { section: Section }) {
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,

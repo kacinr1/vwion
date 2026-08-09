@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import ScrollReveal from '@/components/ScrollReveal'
 import { useLang } from '@/context/LanguageContext'
-import AtelierHero from '@/components/AtelierHero'
 import ClockIntro from '@/components/ClockIntro'
+import ServiceHero from '@/components/ServiceHero'
+import CraftSequence from '@/components/CraftSequence'
 
 const WATCH_SVG_BEFORE = (
   <svg viewBox="0 0 200 260" className="w-full h-full" fill="none">
@@ -65,82 +66,23 @@ export default function HomePage() {
   return (
     <>
       <ClockIntro />
-      <AtelierHero />
 
-      {/* ── INTRO ── */}
-      <section className="py-32 px-6 bg-obsidian-soft">
-        <div className="max-w-6xl mx-auto">
-          <ScrollReveal className="text-center mb-16">
-            <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">{t.intro.badge}</span>
-            <div className="w-8 h-px bg-gold mx-auto mt-4" />
-          </ScrollReveal>
+      {/* ── HERO SERVICE (split : message + vidéo polissage) ── */}
+      <ServiceHero />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <ScrollReveal direction="left">
-              <h2 className="text-4xl md:text-5xl font-serif font-light text-cream leading-tight mb-8">
-                {t.intro.title}
-              </h2>
-              <p className="text-cream-muted leading-relaxed text-lg font-sans">
-                {t.intro.text}
-              </p>
-            </ScrollReveal>
-
-            <ScrollReveal direction="right" delay={0.2}>
-              <div className="grid grid-cols-1 gap-5">
-                {[
-                  { icon: '◈', label: t.intro.byAppointment },
-                  { icon: '◆', label: t.intro.certified },
-                  { icon: '◇', label: t.intro.discretion },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center gap-5 p-5 border border-gold/15 bg-obsidian-card">
-                    <span className="text-gold text-xl">{item.icon}</span>
-                    <span className="text-cream-muted font-sans tracking-wide">{item.label}</span>
-                  </div>
-                ))}
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
+      {/* ── SAVOIR-FAIRE : les 4 étapes en vidéo ── */}
+      <section className="py-24 px-6 bg-obsidian text-center">
+        <ScrollReveal>
+          <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">{t.hero.craftBadge}</span>
+          <h2 className="text-4xl md:text-5xl font-serif font-light text-cream mt-4">{t.hero.craftTitle}</h2>
+          <div className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-6" />
+        </ScrollReveal>
       </section>
 
-      {/* ── SERVICES PREVIEW ── */}
-      <section className="py-32 px-6 bg-obsidian">
-        <div className="max-w-6xl mx-auto">
-          <ScrollReveal className="text-center mb-4">
-            <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">{t.services.badge}</span>
-          </ScrollReveal>
-          <ScrollReveal className="text-center mb-16" delay={0.1}>
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-cream mt-4">{t.services.title}</h2>
-            <div className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-6" />
-          </ScrollReveal>
+      {/* Séquence fondue : les 4 étapes en un seul film continu */}
+      <CraftSequence />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {t.services.items.map((item, i) => (
-              <ScrollReveal key={i} delay={i * 0.1}>
-                <div className="p-8 border border-gold/15 bg-obsidian-card hover:border-gold/40 transition-all duration-500 group">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-xl font-serif text-cream group-hover:text-gold transition-colors">{item.title}</h3>
-                    <span className="text-gold text-xs tracking-widest font-sans mt-1">0{i + 1}</span>
-                  </div>
-                  <p className="text-cream-muted font-sans text-sm leading-relaxed mb-4">{item.desc}</p>
-                  <div className="flex items-center gap-2">
-                    <span className="w-4 h-px bg-gold/50" />
-                    <span className="text-[9px] tracking-[0.3em] uppercase text-gold/70 font-sans">{item.detail}</span>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-
-          <ScrollReveal className="text-center mt-12" delay={0.4}>
-            <Link href="/services" className="inline-block px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans text-gold border border-gold/50 hover:bg-gold hover:text-obsidian transition-all duration-300">
-              {t.hero.cta}
-            </Link>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ── BEFORE / AFTER TEASER ── */}
+      {/* ── AVANT / APRÈS ── */}
       <section className="py-32 px-6 bg-obsidian-soft">
         <div className="max-w-5xl mx-auto">
           <ScrollReveal className="text-center mb-16">
@@ -185,7 +127,66 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA SECTION ── */}
+      {/* ── MARQUES TRAVAILLÉES ── */}
+      <section className="py-28 px-6 bg-obsidian">
+        <div className="max-w-5xl mx-auto text-center">
+          <ScrollReveal>
+            <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">{t.hero.brandsTitle}</span>
+            <div className="w-8 h-px bg-gold mx-auto mt-4 mb-12" />
+          </ScrollReveal>
+          <ScrollReveal delay={0.1}>
+            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+              {t.hero.brandsList.map((brand) => (
+                <span
+                  key={brand}
+                  className="text-xl md:text-3xl font-serif font-light text-cream/70 hover:text-gold transition-colors duration-500"
+                >
+                  {brand}
+                </span>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── SERVICES DÉTAILLÉS ── */}
+      <section className="py-32 px-6 bg-obsidian-soft">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal className="text-center mb-4">
+            <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">{t.services.badge}</span>
+          </ScrollReveal>
+          <ScrollReveal className="text-center mb-16" delay={0.1}>
+            <h2 className="text-4xl md:text-5xl font-serif font-light text-cream mt-4">{t.services.title}</h2>
+            <div className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-6" />
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {t.services.items.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 0.1}>
+                <div className="p-8 border border-gold/15 bg-obsidian-card hover:border-gold/40 transition-all duration-500 group h-full">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-xl font-serif text-cream group-hover:text-gold transition-colors">{item.title}</h3>
+                    <span className="text-gold text-xs tracking-widest font-sans mt-1">0{i + 1}</span>
+                  </div>
+                  <p className="text-cream-muted font-sans text-sm leading-relaxed mb-4">{item.desc}</p>
+                  <div className="flex items-center gap-2">
+                    <span className="w-4 h-px bg-gold/50" />
+                    <span className="text-[9px] tracking-[0.3em] uppercase text-gold/70 font-sans">{item.detail}</span>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal className="text-center mt-12" delay={0.4}>
+            <Link href="/services" className="inline-block px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans text-gold border border-gold/50 hover:bg-gold hover:text-obsidian transition-all duration-300">
+              {t.hero.cta}
+            </Link>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── CONVERSION ── */}
       <section className="py-32 px-6 bg-obsidian relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/4 rounded-full blur-3xl" />
@@ -201,7 +202,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/contact" className="px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-semibold text-obsidian bg-gold hover:bg-gold-light transition-all duration-300">
-                {t.contact.badge} — RDV
+                {t.hero.ctaAppointment}
               </Link>
               <Link href="/tarifs" className="px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-semibold text-gold border border-gold/50 hover:border-gold hover:bg-gold/5 transition-all duration-300">
                 {t.hero.ctaSecondary}
