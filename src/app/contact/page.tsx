@@ -11,16 +11,35 @@ import { BUSINESS, BUSINESS_ADDRESS, MAPS_DIRECTIONS, MAPS_EMBED } from '@/lib/b
 export default function ContactPage() {
   const { t, lang } = useLang()
   const router = useRouter()
-  const [status, setStatus] = useState<'idle' | 'sending'>('idle')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState<string>('')
   const [form, setForm] = useState({ name: '', email: '', phone: '', watch: '', message: '' })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('sending')
-    trackEvent('click_devis', { location: 'contact_form' })
-    // TODO: brancher l'envoi réel (API) ici. Redirection vers la page de conversion.
-    await new Promise((r) => setTimeout(r, 800))
-    router.push('/merci')
+    setErrorMsg('')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      if (res.ok) {
+        // Succès : event GA4 generate_lead puis redirection page de conversion
+        trackEvent('generate_lead', { location: 'contact_form', watch: form.watch })
+        router.push('/merci')
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setErrorMsg(data?.error || t.contact.form.error)
+        setStatus('error')
+      }
+    } catch {
+      setErrorMsg(t.contact.form.error)
+      setStatus('error')
+    }
   }
 
   const INFO = [
@@ -134,6 +153,12 @@ export default function ContactPage() {
                       placeholder={t.contact.form.messagePlaceholder}
                     />
                   </div>
+
+                  {status === 'error' && errorMsg && (
+                    <p role="alert" className="text-red-400 font-sans text-sm px-1 py-2 border border-red-400/30 bg-red-400/5">
+                      {errorMsg}
+                    </p>
+                  )}
 
                   <button
                     type="submit"

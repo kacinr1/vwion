@@ -114,6 +114,7 @@ export const translations = {
         submit: 'Envoyer la demande',
         sending: 'Envoi en cours...',
         success: 'Message envoyé. Nous vous contacterons sous 24h.',
+        error: 'Une erreur est survenue. Veuillez réessayer ou nous écrire directement.',
       },
       info: {
         location: 'Suisse — lieu communiqué sur RDV',
@@ -245,6 +246,7 @@ export const translations = {
         submit: 'Send request',
         sending: 'Sending...',
         success: 'Message sent. We will contact you within 24 hours.',
+        error: 'An error occurred. Please try again or contact us directly.',
       },
       info: {
         location: 'Switzerland — location communicated upon appointment',
