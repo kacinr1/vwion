@@ -20,7 +20,7 @@ type AIResult = {
 const SERVICE_PRICES = { lustration: 200, remise: 300, laser: 450 }
 
 export default function TarifsPage() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [description, setDescription] = useState('')
@@ -127,7 +127,7 @@ export default function TarifsPage() {
                   {imagePreview ? (
                     <div className="relative w-full h-52">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={imagePreview} alt="Watch preview" className="w-full h-full object-contain p-4" />
+                      <img src={imagePreview} alt={lang === 'fr' ? 'Aperçu de la montre à estimer pour un devis de restauration' : 'Preview of the watch to be estimated for a restoration quote'} className="w-full h-full object-contain p-4" />
                       <div className="absolute inset-0 bg-gradient-to-t from-obsidian/60 to-transparent" />
                       <button
                         onClick={(e) => { e.stopPropagation(); setImageFile(null); setImagePreview(null); setAiResult(null) }}

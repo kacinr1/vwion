@@ -22,12 +22,12 @@ export default function ServiceHero() {
   return (
     <section className="relative min-h-screen bg-obsidian grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
       {/* ── TEXTE (gauche) ── */}
-      <div className="order-2 lg:order-1 relative z-10 flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-16 lg:py-0">
+      <div className="order-2 lg:order-1 relative z-10 flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-8 lg:py-0">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease }}
-          className="flex items-center gap-3 mb-8"
+          className="flex items-center gap-3 mb-5 lg:mb-8"
         >
           <span className="w-10 h-px bg-gold/50" />
           <span className="text-[9px] tracking-[0.45em] uppercase text-gold/70 font-sans">
@@ -77,7 +77,7 @@ export default function ServiceHero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5, ease }}
-          className="mt-10 flex flex-wrap gap-4"
+          className="mt-6 lg:mt-10 flex flex-wrap gap-4"
         >
           <Link
             href="/contact"
@@ -99,7 +99,7 @@ export default function ServiceHero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.7 }}
-          className="mt-14 flex flex-wrap items-center gap-x-5 gap-y-2"
+          className="mt-8 lg:mt-14 flex flex-wrap items-center gap-x-5 gap-y-2"
         >
           {t.hero.brandsList.map((brand, i) => (
             <span key={brand} className="flex items-center gap-5">
@@ -117,7 +117,7 @@ export default function ServiceHero() {
         initial={{ opacity: 0, scale: 1.04 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2, ease }}
-        className="order-1 lg:order-2 relative h-[46vh] sm:h-[56vh] lg:h-auto lg:min-h-screen overflow-hidden"
+        className="order-1 lg:order-2 relative h-[32vh] sm:h-[44vh] lg:h-auto lg:min-h-screen overflow-hidden"
       >
         <video
           autoPlay
