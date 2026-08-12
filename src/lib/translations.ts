@@ -126,6 +126,10 @@ export const translations = {
       tagline: 'Atelier Horloger d\'Excellence · Suisse',
       rights: 'Tous droits réservés.',
       byAppointment: 'Sur rendez-vous uniquement',
+      faq: 'Questions fréquentes',
+      privacy: 'Confidentialité',
+      legal: 'Mentions légales',
+      legalHeading: 'Informations',
     },
   },
   en: {
@@ -253,6 +257,10 @@ export const translations = {
       tagline: 'Master Watchmaking Atelier · Switzerland',
       rights: 'All rights reserved.',
       byAppointment: 'By appointment only',
+      faq: 'FAQ',
+      privacy: 'Privacy',
+      legal: 'Legal notice',
+      legalHeading: 'Information',
     },
   },
 }

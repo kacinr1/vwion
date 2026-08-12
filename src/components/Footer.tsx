@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useLang } from '@/context/LanguageContext'
+import { BUSINESS, BUSINESS_ADDRESS } from '@/lib/business'
 
 export default function Footer() {
   const { t } = useLang()
@@ -10,7 +11,7 @@ export default function Footer() {
   return (
     <footer className="bg-obsidian border-t border-gold/10 py-16 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div>
             <div className="flex flex-col leading-none mb-4">
@@ -31,6 +32,7 @@ export default function Footer() {
                 { href: '/services', label: t.nav.services },
                 { href: '/galerie', label: t.nav.gallery },
                 { href: '/tarifs', label: t.nav.pricing },
+                { href: '/faq', label: t.footer.faq },
                 { href: '/contact', label: t.nav.contact },
               ].map((l) => (
                 <Link key={l.href} href={l.href} className="text-[11px] tracking-[0.15em] uppercase text-cream-muted hover:text-gold transition-colors font-sans">
@@ -40,14 +42,25 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Contact info */}
+          {/* Legal */}
+          <div>
+            <h4 className="text-[10px] tracking-[0.3em] uppercase text-gold font-sans mb-5">{t.footer.legalHeading}</h4>
+            <nav className="flex flex-col gap-3">
+              <Link href="/confidentialite" className="text-[11px] tracking-[0.15em] uppercase text-cream-muted hover:text-gold transition-colors font-sans">{t.footer.privacy}</Link>
+              <Link href="/mentions-legales" className="text-[11px] tracking-[0.15em] uppercase text-cream-muted hover:text-gold transition-colors font-sans">{t.footer.legal}</Link>
+            </nav>
+          </div>
+
+          {/* Contact info (NAP) */}
           <div>
             <h4 className="text-[10px] tracking-[0.3em] uppercase text-gold font-sans mb-5">Atelier</h4>
-            <div className="flex flex-col gap-3 text-cream-muted text-sm font-sans">
-              <p>🇨🇭 {t.contact.info.location}</p>
+            <address className="not-italic flex flex-col gap-3 text-cream-muted text-sm font-sans">
+              <p>{BUSINESS_ADDRESS}</p>
+              <a href={`tel:${BUSINESS.phone}`} className="hover:text-gold transition-colors">{BUSINESS.phoneDisplay}</a>
+              <a href={`mailto:${BUSINESS.email}`} className="hover:text-gold transition-colors">{BUSINESS.email}</a>
               <p>{t.contact.info.hours}</p>
               <p>{t.footer.byAppointment}</p>
-            </div>
+            </address>
           </div>
         </div>
 
