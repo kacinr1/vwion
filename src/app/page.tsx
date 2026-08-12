@@ -6,6 +6,8 @@ import { useLang } from '@/context/LanguageContext'
 import ClockIntro from '@/components/ClockIntro'
 import ServiceHero from '@/components/ServiceHero'
 import CraftSequence from '@/components/CraftSequence'
+import CaseStudies from '@/components/CaseStudies'
+import Testimonials from '@/components/Testimonials'
 
 const WATCH_SVG_BEFORE = (
   <svg viewBox="0 0 200 260" className="w-full h-full" fill="none">
@@ -185,6 +187,12 @@ export default function HomePage() {
           </ScrollReveal>
         </div>
       </section>
+
+      {/* ── ÉTUDES DE CAS ── */}
+      <CaseStudies />
+
+      {/* ── AVIS CLIENTS ── */}
+      <Testimonials />
 
       {/* ── CONVERSION ── */}
       <section className="py-32 px-6 bg-obsidian relative overflow-hidden">

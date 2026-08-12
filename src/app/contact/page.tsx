@@ -2,23 +2,29 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import ScrollReveal from '@/components/ScrollReveal'
 import { useLang } from '@/context/LanguageContext'
+import { trackEvent } from '@/lib/analytics'
+import { BUSINESS, BUSINESS_ADDRESS, MAPS_DIRECTIONS, MAPS_EMBED } from '@/lib/business'
 
 export default function ContactPage() {
-  const { t } = useLang()
-  const [status, setStatus] = useState<'idle' | 'sending' | 'done'>('idle')
+  const { t, lang } = useLang()
+  const router = useRouter()
+  const [status, setStatus] = useState<'idle' | 'sending'>('idle')
   const [form, setForm] = useState({ name: '', email: '', phone: '', watch: '', message: '' })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('sending')
-    await new Promise((r) => setTimeout(r, 1500))
-    setStatus('done')
+    trackEvent('click_devis', { location: 'contact_form' })
+    // TODO: brancher l'envoi réel (API) ici. Redirection vers la page de conversion.
+    await new Promise((r) => setTimeout(r, 800))
+    router.push('/merci')
   }
 
   const INFO = [
-    { icon: '🇨🇭', label: t.contact.info.location },
+    { icon: '📍', label: BUSINESS_ADDRESS },
     { icon: '◈', label: t.contact.info.hours },
     { icon: '◆', label: t.contact.info.response },
     { icon: '◇', label: t.contact.info.appointment },
@@ -66,13 +72,7 @@ export default function ContactPage() {
           {/* Form */}
           <ScrollReveal direction="right" delay={0.2} className="lg:col-span-3">
             <div className="border border-gold/20 bg-obsidian-card p-8 md:p-10">
-              {status === 'done' ? (
-                <div className="text-center py-12">
-                  <div className="text-5xl text-gold mb-4">◈</div>
-                  <h3 className="text-2xl font-serif text-cream mb-3">{t.contact.form.success}</h3>
-                  <p className="text-cream-muted font-sans text-sm">Nous vous contacterons pour confirmer votre rendez-vous.</p>
-                </div>
-              ) : (
+              {(
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
@@ -146,6 +146,45 @@ export default function ContactPage() {
               )}
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Carte + itinéraire */}
+      <section className="pb-24 px-6 bg-obsidian-soft">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <p className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans mb-2">
+                {lang === 'fr' ? 'Nous situer' : 'Find us'}
+              </p>
+              <p className="text-cream-muted font-sans text-sm">{BUSINESS_ADDRESS}</p>
+            </div>
+            <a
+              href={MAPS_DIRECTIONS}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent('click_directions')}
+              className="px-6 py-3 text-[10px] tracking-[0.25em] uppercase font-sans bg-gold text-obsidian font-semibold hover:bg-gold-light transition-colors whitespace-nowrap"
+            >
+              {lang === 'fr' ? 'Itinéraire' : 'Directions'}
+            </a>
+          </div>
+          <div className="border border-gold/20 overflow-hidden">
+            <iframe
+              title={lang === 'fr' ? 'Carte de l\'atelier VWION à Genève' : 'Map of the VWION atelier in Geneva'}
+              src={MAPS_EMBED}
+              width="100%"
+              height="360"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              style={{ border: 0, filter: 'grayscale(0.4) contrast(1.05)' }}
+            />
+          </div>
+          <p className="text-cream/40 text-xs font-sans mt-3">
+            {lang === 'fr'
+              ? 'Atelier accessible sur rendez-vous. Adresse exacte confirmée lors de la prise de rendez-vous.'
+              : 'Atelier accessible by appointment. Exact address confirmed when booking.'}
+          </p>
         </div>
       </section>
     </>
