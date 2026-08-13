@@ -53,10 +53,16 @@ export async function POST(request: Request) {
   // 4. Envoi via Resend
   const resend = new Resend(apiKey)
 
+  // Expéditeur : sous-domaine vérifié dans Resend (protège la réputation du domaine racine).
+  // Destinataire : boîte de réception des leads, surchargeable par env (défaut Gmail).
+  // BUSINESS.email (contact@vwion.ch) reste l'adresse publique affichée / de réponse.
+  const from = process.env.CONTACT_FROM || 'VWION Contact <noreply@send.vwion.ch>'
+  const to = process.env.CONTACT_INBOX || 'kacinr1@gmail.com'
+
   try {
     const { error } = await resend.emails.send({
-      from: 'VWION Contact <noreply@vwion.ch>',
-      to: [BUSINESS.email],
+      from,
+      to: [to],
       replyTo: email,
       subject: `[VWION] Demande de devis — ${watch}`,
       html: `
