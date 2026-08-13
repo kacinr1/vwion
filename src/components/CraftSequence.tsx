@@ -80,6 +80,7 @@ function Layer({
           loop
           playsInline
           preload="metadata"
+          poster={section.poster}
           src={section.videoUrl}
           className="w-full h-full object-cover"
         />

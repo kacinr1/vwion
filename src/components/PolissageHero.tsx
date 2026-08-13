@@ -7,6 +7,7 @@ import Link from 'next/link'
 export const SECTIONS = [
   {
     id: 'boitier',
+    poster: '/posters/boitier.jpg',
     label: 'BOÎTIER',
     number: '01',
     title: "L'Art Invisible",
@@ -18,6 +19,7 @@ export const SECTIONS = [
   },
   {
     id: 'fond',
+    poster: '/posters/fond.jpg',
     label: 'FOND',
     number: '02',
     title: 'Révélation',
@@ -29,6 +31,7 @@ export const SECTIONS = [
   },
   {
     id: 'carrure',
+    poster: '/posters/carrure.jpg',
     label: 'CARRURE',
     number: '03',
     title: 'Lumière',
@@ -40,6 +43,7 @@ export const SECTIONS = [
   },
   {
     id: 'bracelet',
+    poster: '/posters/bracelet.jpg',
     label: 'BRACELET',
     number: '04',
     title: 'Du Satin',
@@ -91,6 +95,7 @@ export function VideoSection({ section }: { section: Section }) {
           loop
           playsInline
           preload="metadata"
+          poster={section.poster}
           src={section.videoUrl}
           className="w-full h-full object-cover"
         />

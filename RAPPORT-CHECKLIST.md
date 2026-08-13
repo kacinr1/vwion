@@ -21,7 +21,7 @@ Date : 2026-08-12. Build de production : ✅ vert (17 routes). Vérifié via Pla
 | 12 | Carte + itinéraire | ✅ | Embed Google Maps iframe (sans clé) + bouton « Itinéraire ». Note : rendu réseau à revérifier en prod. |
 | 13 | CTA above-the-fold | ✅ | Corrigé : hero mobile resserré (vidéo 46vh→32vh, marges réduites) → CTA visible sans scroll sur 375×667. |
 | 14 | Alt text images | ✅ | Un seul `<img>` (aperçu estimateur) → alt descriptif localisé. Reste = SVG inline / vidéos décoratives. |
-| 15 | Temps de réponse | ⚠️ | `next/font` (swap) OK, vidéos `preload="metadata"`. **Recommandation** : ajouter des `poster` aux 3 vidéos hero/craft et lancer Lighthouse en prod (non exécutable dans ce sandbox). |
+| 15 | Temps de réponse | ✅/⚠️ | `next/font` (swap) OK, vidéos `preload="metadata"`. **Posters ajoutés** : image de repli extraite de chaque vidéo (`public/posters/{boitier,fond,carrure,bracelet}.jpg`, 36–77 Ko, pipeline `scripts/extract-posters.mjs` via ffmpeg) et câblée sur les 5 `<video>` (ServiceHero + 4 couches CraftSequence + VideoSection) → premier rendu instantané, LCP mobile amélioré. Vérifié Playwright (posters présents dans le DOM, HTTP 200, 0 erreur). **Reste** : Lighthouse réel en prod (non exécutable en sandbox). |
 | 16 | Google Analytics (GA4) | ✅ | `Analytics.tsx` : GA4 chargé **après consentement** (bandeau LPD accepter/refuser). Events `generate_lead`, `click_phone`, `click_devis`, `click_directions`. Env `NEXT_PUBLIC_GA_ID` dans `.env.example`. |
 | 17 | Liens internes | ✅ | Footer 4 colonnes (nav + légal + NAP), maillage hero/services/tarifs/faq/contact. |
 | 18 | Schema LocalBusiness | ✅ | JSON-LD `LocalBusiness` (additionalType JewelryStore) dans le layout : adresse, geo, horaires, téléphone, priceRange. |

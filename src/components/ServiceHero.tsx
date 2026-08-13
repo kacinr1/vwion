@@ -13,6 +13,7 @@ const MONTSERRAT: React.CSSProperties = {
 
 // Vidéo de polissage réutilisée (la carrure qui brille sous l'outil)
 const HERO_VIDEO = SECTIONS[2].videoUrl
+const HERO_POSTER = SECTIONS[2].poster
 
 const ease = [0.16, 1, 0.3, 1] as const
 
@@ -125,6 +126,7 @@ export default function ServiceHero() {
           loop
           playsInline
           preload="metadata"
+          poster={HERO_POSTER}
           src={HERO_VIDEO}
           className="absolute inset-0 w-full h-full object-cover"
         />
