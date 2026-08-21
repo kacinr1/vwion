@@ -30,8 +30,23 @@ export default function CaseStudies() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {caseStudies.map((cs, i) => (
             <ScrollReveal key={cs.watch} delay={i * 0.1}>
-              <article className="h-full p-8 border border-gold/15 bg-obsidian-card flex flex-col gap-5">
-                <h3 className="text-xl font-serif text-gold">{cs.watch}</h3>
+              <article className="h-full border border-gold/15 bg-obsidian-card flex flex-col overflow-hidden group">
+                <div className="relative overflow-hidden">
+                  <img
+                    src={cs.apres}
+                    alt={fr
+                      ? `${cs.watch} restaurée à l'atelier — ${cs.result.fr}`
+                      : `${cs.watch} restored at the atelier — ${cs.result.en}`}
+                    className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-obsidian-card via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-4 right-4">
+                    <h3 className="text-xl font-serif text-gold">{cs.watch}</h3>
+                    <p className="text-[9px] tracking-[0.3em] uppercase text-cream/60 font-sans mt-0.5">{cs.ref[lang]}</p>
+                  </div>
+                </div>
+                <div className="p-8 flex flex-col gap-5 flex-1">
                 <div>
                   <p className="text-[9px] tracking-[0.3em] uppercase text-cream/40 font-sans mb-1">{LABELS.problem}</p>
                   <p className="text-cream-muted text-sm font-sans leading-relaxed">{cs.problem[lang]}</p>
@@ -43,6 +58,7 @@ export default function CaseStudies() {
                 <div className="mt-auto pt-4 border-t border-gold/10">
                   <p className="text-[9px] tracking-[0.3em] uppercase text-gold/70 font-sans mb-1">{LABELS.result}</p>
                   <p className="text-cream text-sm font-sans leading-relaxed">{cs.result[lang]}</p>
+                </div>
                 </div>
               </article>
             </ScrollReveal>
