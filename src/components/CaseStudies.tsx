@@ -30,14 +30,14 @@ export default function CaseStudies() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {caseStudies.map((cs, i) => (
             <ScrollReveal key={cs.watch} delay={i * 0.1}>
-              <article className="h-full border border-gold/15 bg-obsidian-card flex flex-col overflow-hidden group">
+              <article className="h-full border border-gold/15 bg-obsidian-card flex flex-col overflow-hidden group hover:border-gold/40 transition-colors duration-200 ease-out-quint">
                 <div className="relative overflow-hidden">
                   <img
                     src={cs.apres}
                     alt={fr
                       ? `${cs.watch} restaurée à l'atelier — ${cs.result.fr}`
                       : `${cs.watch} restored at the atelier — ${cs.result.en}`}
-                    className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    className="w-full aspect-[4/5] object-cover transition-transform duration-500 ease-out-quint motion-safe:group-hover:scale-[1.03]"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-obsidian-card via-transparent to-transparent" />

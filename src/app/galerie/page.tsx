@@ -28,11 +28,11 @@ export default function GaleriePage() {
         <div className="max-w-4xl mx-auto flex flex-col gap-20">
           {caseStudies.map((cs, i) => (
             <ScrollReveal key={cs.watch} delay={i * 0.05}>
-              <article className="bg-obsidian-card border border-gold/15 overflow-hidden group hover:border-gold/40 transition-all duration-500">
+              <article className="bg-obsidian-card border border-gold/15 overflow-hidden group hover:border-gold/40 transition-colors duration-200 ease-out-quint">
                 {/* Before / After images */}
                 <div className="grid grid-cols-2">
                   {/* Before */}
-                  <figure className="relative border-r border-gold/10">
+                  <figure className="relative overflow-hidden border-r border-gold/10">
                     <div className="absolute top-3 left-3 z-10">
                       <span className="text-[8px] tracking-[0.3em] uppercase text-red-300/90 font-sans bg-obsidian/70 backdrop-blur-sm px-2 py-1 border border-red-900/40">
                         {t.gallery.before}
@@ -43,12 +43,12 @@ export default function GaleriePage() {
                       alt={lang === 'fr'
                         ? `${cs.watch} avant restauration — ${cs.problem.fr}`
                         : `${cs.watch} before restoration — ${cs.problem.en}`}
-                      className="w-full aspect-[4/5] object-cover grayscale-[0.15] group-hover:grayscale-0 transition-all duration-700"
+                      className="w-full aspect-[4/5] object-cover grayscale-[0.2] group-hover:grayscale-0 motion-safe:group-hover:scale-[1.02] transition-[filter,scale] duration-[400ms] ease-out-quint"
                       loading="lazy"
                     />
                   </figure>
                   {/* After */}
-                  <figure className="relative">
+                  <figure className="relative overflow-hidden">
                     <div className="absolute top-3 right-3 z-10">
                       <span className="text-[8px] tracking-[0.3em] uppercase text-gold font-sans bg-obsidian/70 backdrop-blur-sm px-2 py-1 border border-gold/40">
                         {t.gallery.after}
@@ -59,7 +59,7 @@ export default function GaleriePage() {
                       alt={lang === 'fr'
                         ? `${cs.watch} après restauration — ${cs.result.fr}`
                         : `${cs.watch} after restoration — ${cs.result.en}`}
-                      className="w-full aspect-[4/5] object-cover"
+                      className="w-full aspect-[4/5] object-cover motion-safe:group-hover:scale-[1.02] transition-transform duration-[400ms] ease-out-quint"
                       loading="lazy"
                     />
                   </figure>
@@ -67,7 +67,7 @@ export default function GaleriePage() {
 
                 {/* Info */}
                 <div className="p-8 border-t border-gold/10">
-                  <h3 className="font-serif text-cream text-2xl group-hover:text-gold transition-colors">{cs.watch}</h3>
+                  <h3 className="font-serif text-cream text-2xl group-hover:text-gold transition-colors duration-200 ease-out-quint">{cs.watch}</h3>
                   <p className="text-[10px] tracking-[0.3em] text-gold/70 font-sans uppercase mt-1 mb-6">{cs.ref[lang]}</p>
 
                   <div className="grid gap-5 sm:grid-cols-2">
