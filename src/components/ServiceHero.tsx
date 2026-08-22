@@ -10,9 +10,9 @@ const MONTSERRAT: React.CSSProperties = {
   letterSpacing: '-0.02em',
 }
 
-// Vidéo hero générée par IA (Artlist/Seedance) — remise de la montre à l'horloger
-const HERO_VIDEO = '/hero/deal.mp4'
-const HERO_POSTER = '/hero/deal-poster.jpg'
+// Vidéo hero — footage réel (atelier horloger)
+const HERO_VIDEO = '/hero/real-atelier.mp4'
+const HERO_POSTER = '/hero/real-atelier-poster.jpg'
 
 const ease = [0.16, 1, 0.3, 1] as const
 
