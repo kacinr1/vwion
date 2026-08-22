@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import ScrollReveal from '@/components/ScrollReveal'
@@ -14,6 +14,17 @@ export default function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState<string>('')
   const [form, setForm] = useState({ name: '', email: '', phone: '', watch: '', message: '' })
+
+  // Pré-remplissage depuis l'estimation IA (page Tarifs → « Obtenir un devis »)
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('vwion-estimate')
+      if (!raw) return
+      const est = JSON.parse(raw) as { watch?: string; message?: string }
+      setForm((f) => ({ ...f, watch: est.watch || f.watch, message: est.message || f.message }))
+      sessionStorage.removeItem('vwion-estimate')
+    } catch {}
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

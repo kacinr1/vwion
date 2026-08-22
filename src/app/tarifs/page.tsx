@@ -91,6 +91,18 @@ export default function TarifsPage() {
   const base = selectedService ? SERVICE_PRICES[selectedService as keyof typeof SERVICE_PRICES] : 0
   const total = base + (demontage ? 100 : 0)
 
+  // Stocke l'analyse pour pré-remplir le formulaire contact (montre + message détaillé).
+  const stashEstimate = () => {
+    if (!aiResult) return
+    try {
+      const issues = aiResult.detected_issues?.length ? ` Défauts constatés : ${aiResult.detected_issues.join(', ')}.` : ''
+      sessionStorage.setItem('vwion-estimate', JSON.stringify({
+        watch: `${aiResult.brand} ${aiResult.model}`.trim(),
+        message: `Suite à l'estimation en ligne — ${aiResult.brand} ${aiResult.model} (${aiResult.material}), état ${aiResult.condition}.${issues} Prestation recommandée : ${RECO_LABEL[aiResult.recommended_service] || 'à définir'}${demontage ? ' + démontage / montage' : ''}. Merci de me confirmer un devis.`,
+      }))
+    } catch {}
+  }
+
   const CONDITION_COLORS: Record<string, string> = {
     excellent: 'text-emerald-400',
     bon: 'text-gold',
@@ -367,6 +379,7 @@ export default function TarifsPage() {
 
               <Link
                 href="/contact"
+                onClick={stashEstimate}
                 className="py-4 px-8 text-[11px] tracking-[0.2em] uppercase font-sans font-semibold text-gold border border-gold/50 hover:bg-gold hover:text-obsidian transition-all duration-300 text-center"
               >
                 {t.pricing.contactForQuote}
@@ -509,6 +522,7 @@ export default function TarifsPage() {
 
               <Link
                 href="/contact"
+                onClick={stashEstimate}
                 className="block w-full py-4 text-center text-[11px] tracking-[0.2em] uppercase font-sans font-semibold bg-gold text-obsidian hover:bg-gold-light transition-all duration-300"
               >
                 {lang === 'fr' ? 'Obtenir un devis précis' : 'Get a precise quote'}

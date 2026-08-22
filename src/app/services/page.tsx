@@ -20,6 +20,18 @@ const COMPONENTS = [
   'Flancs et cornes',
 ]
 
+const TECHNIQUES = [
+  { name: 'Préparation', desc: "Préparation minutieuse des surfaces avant tout polissage : dégraissage, masquage des zones satinées et repérage des finitions d'origine." },
+  { name: 'Meulage', desc: 'Meulage et reprise des chocs profonds du boîtier avant la mise en forme, à la main comme en atelier de haute horlogerie.' },
+  { name: 'Émerisage', desc: "Émerisage progressif au papier abrasif pour effacer rayures et micro-rayures sans altérer la géométrie du boîtier." },
+  { name: 'Anglage', desc: "Anglage des cornes et des arêtes pour restituer les angles vifs et les facettes d'origine." },
+  { name: 'Cabronnage', desc: "Cabronnage traditionnel à la main, technique de bijouterie pour un poli d'une pureté absolue." },
+  { name: 'Avivage', desc: "Avivage final au feutre et à la pâte pour révéler la brillance profonde de l'acier, de l'or ou du titane." },
+  { name: 'Satinage', desc: 'Satinage directionnel des surfaces brossées, dans le respect strict des finitions manufacture.' },
+  { name: 'Polissage miroir', desc: "Polissage miroir des surfaces polies pour retrouver l'éclat d'origine, sans perte de matière inutile." },
+  { name: 'Terminaison & finition', desc: 'Terminaison horlogère complète : contrôle des contrastes poli / satiné et finition avant remontage.' },
+]
+
 export default function ServicesPage() {
   const { t } = useLang()
 
@@ -84,6 +96,37 @@ export default function ServicesPage() {
               <ScrollReveal key={comp} delay={i * 0.05}>
                 <div className="p-4 border border-gold/15 bg-obsidian-card text-center hover:border-gold/40 transition-all duration-300">
                   <p className="text-cream-muted text-xs font-sans tracking-wide">{comp}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Savoir-faire & techniques (SEO + pédagogie) */}
+      <section className="py-24 px-6 bg-obsidian">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal className="text-center mb-14 max-w-3xl mx-auto">
+            <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">Savoir-faire</span>
+            <h2 className="text-4xl md:text-5xl font-serif font-light text-cream mt-4 tracking-[-0.02em]">Nos techniques de terminaison horlogère</h2>
+            <div className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto my-6" />
+            <p className="text-cream-muted font-sans leading-relaxed">
+              Chaque montre passe entre les mains d&apos;un <strong className="text-cream">artisan horloger</strong>. Le polissage et la restauration sont un
+              {' '}<strong className="text-cream">métier manuel</strong> : un <strong className="text-cream">savoir-faire</strong> de terminaison hérité de la haute
+              horlogerie et de la bijouterie genevoise. Nous intervenons en <strong className="text-cream">SAV Rolex</strong>, <strong className="text-cream">SAV Patek Philippe</strong>,
+              Audemars Piguet et Vacheron Constantin — polir et redonner vie à votre garde-temps, sans jamais trahir sa ligne d&apos;origine.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {TECHNIQUES.map((tech, i) => (
+              <ScrollReveal key={tech.name} delay={(i % 3) * 0.05}>
+                <div className="h-full p-6 border border-gold/15 bg-obsidian-card hover:border-gold/40 transition-colors duration-300">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-gold text-sm">◆</span>
+                    <h3 className="text-lg font-serif text-cream">{tech.name}</h3>
+                  </div>
+                  <p className="text-cream-muted font-sans text-sm leading-relaxed">{tech.desc}</p>
                 </div>
               </ScrollReveal>
             ))}
