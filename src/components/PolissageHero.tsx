@@ -7,14 +7,14 @@ import Link from 'next/link'
 export const SECTIONS = [
   {
     id: 'boitier',
-    poster: '/posters/boitier.jpg',
-    label: 'BOÎTIER',
+    poster: '/hero/bench-loupe-poster.jpg',
+    label: "L'ATELIER",
     number: '01',
     title: "L'Art Invisible",
     accent: 'de la Perfection',
-    desc: "La carrure, âme visible de la montre. Chaque surface polie à la main, chaque angle façonné avec une précision de 0,01 mm.",
+    desc: "Chaque mouvement démonté et contrôlé sous la loupe, composant par composant. La main sûre du maître horloger, l'obsession du détail invisible.",
     videoUrl:
-      'https://cms-toolkit-artifacts.artlist.io/content/-t-e-x-t_-t-o_-v-i-d-e-o-v1/media__6/-t-e-x-t_-t-o_-v-i-d-e-o-49c17992-75da-47bc-b5ec-9c8451b26e82.mp4?Expires=2100207169&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=dMuMKqZDcP7T1iE9~0-6RsGe6Me4nxobzMRm7HoZQpQQF3L2MVmRcaO0GFtkL8VM5P2fcbO6Nc6yz49f3aKEyToImow9MBCftLQlMXoBQYhvvw9QLaHngZQqnVjbesAegz72r2yyU0NqFy7fBbuUBqky~AwXj-7tUDGN~7zxq0Ko0tId7KFjPk1RhV1C-6-XQ9sgP82G0Y-eNzD4u8n8yR8Pp6rTp~e~ZZ11FitW5Ep3AKEB0yaqPlAn29FRTIydSRrs4kkwM8v1Bxx5e2F1Pui0i5Hk9q5iwc-VCKIVkt4-4n8GnR~VkwKEENjuAXwRyrszJUQuieKUgfQjHdfgog__',
+      '/hero/bench-loupe.mp4',
     align: 'left' as const,
   },
   {
