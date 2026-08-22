@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useLang } from '@/context/LanguageContext'
-import { SECTIONS } from '@/components/PolissageHero'
 
 const MONTSERRAT: React.CSSProperties = {
   fontFamily: 'var(--font-montserrat, "Helvetica Neue", Helvetica, sans-serif)',
@@ -11,9 +10,9 @@ const MONTSERRAT: React.CSSProperties = {
   letterSpacing: '-0.02em',
 }
 
-// Vidéo de polissage réutilisée (la carrure qui brille sous l'outil)
-const HERO_VIDEO = SECTIONS[2].videoUrl
-const HERO_POSTER = SECTIONS[2].poster
+// Vidéo hero générée par IA (Artlist/Seedance) — remise de la montre à l'horloger
+const HERO_VIDEO = '/hero/deal.mp4'
+const HERO_POSTER = '/hero/deal-poster.jpg'
 
 const ease = [0.16, 1, 0.3, 1] as const
 
