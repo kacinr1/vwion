@@ -10,9 +10,8 @@ const MONTSERRAT: React.CSSProperties = {
   letterSpacing: '-0.02em',
 }
 
-// Vidéo hero — footage réel (atelier horloger)
-const HERO_VIDEO = '/hero/real-atelier.mp4'
-const HERO_POSTER = '/hero/real-atelier-poster.jpg'
+// Vidéo hero — reveal VWION
+const HERO_VIDEO = '/hero/vwion-hero-reveal.mp4'
 
 const ease = [0.16, 1, 0.3, 1] as const
 
@@ -125,7 +124,6 @@ export default function ServiceHero() {
           loop
           playsInline
           preload="metadata"
-          poster={HERO_POSTER}
           src={HERO_VIDEO}
           className="absolute inset-0 w-full h-full object-cover"
         />
