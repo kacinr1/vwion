@@ -19,6 +19,8 @@ type AIResult = {
 }
 
 const SERVICE_PRICES = { lustration: 200, remise: 300, laser: 450 }
+const RECO_PRICE: Record<string, number> = { lustration: 200, remise_a_neuf: 300, rebouchage_laser: 450 }
+const RECO_LABEL: Record<string, string> = { lustration: 'Lustration simple', remise_a_neuf: 'Remise à neuf complète', rebouchage_laser: 'Rebouchage laser' }
 
 export default function TarifsPage() {
   const { t, lang } = useLang()
@@ -29,6 +31,7 @@ export default function TarifsPage() {
   const [aiResult, setAiResult] = useState<AIResult | null>(null)
   const [selectedService, setSelectedService] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [showModal, setShowModal] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleImageChange = (file: File) => {
@@ -52,6 +55,7 @@ export default function TarifsPage() {
     setError(null)
     setAnalyzing(true)
     setAiResult(null)
+    setShowModal(false)
 
     try {
       const fd = new FormData()
@@ -66,6 +70,7 @@ export default function TarifsPage() {
       }
       const result = data as AIResult
       setAiResult(result)
+      setShowModal(true)
 
       const svcMap: Record<string, string> = {
         lustration: 'lustration',
@@ -393,6 +398,82 @@ export default function TarifsPage() {
           </div>
         </div>
       </section>
+      {/* Pop-up résultat d'estimation */}
+      <AnimatePresence>
+        {showModal && aiResult && (
+          <motion.div
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setShowModal(false)}
+          >
+            <div className="absolute inset-0 bg-obsidian/85 backdrop-blur-xl" />
+            <motion.div
+              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+              transition={{ type: 'spring', bounce: 0.18, duration: 0.5 }}
+              className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-obsidian-card border border-gold/30 p-8"
+            >
+              <button
+                onClick={() => setShowModal(false)}
+                aria-label={lang === 'fr' ? 'Fermer' : 'Close'}
+                className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-cream/60 hover:text-gold border border-gold/20 hover:border-gold/50 transition-colors"
+              >
+                ✕
+              </button>
+
+              <p className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">{lang === 'fr' ? 'Estimation · Analyse IA' : 'Estimate · AI analysis'}</p>
+              <h3 className="text-3xl font-serif text-cream mt-3 pr-8">
+                {aiResult.brand} <span className="text-cream-muted">{aiResult.model}</span>
+              </h3>
+              <div className="w-12 h-px bg-gradient-to-r from-gold to-transparent my-5" />
+
+              {/* Le diagnostic */}
+              <p className="text-[9px] tracking-[0.3em] uppercase text-gold/60 font-sans mb-2">{lang === 'fr' ? 'Le diagnostic' : 'The diagnosis'}</p>
+              <p className="text-cream-muted text-sm font-sans mb-3">
+                {lang === 'fr' ? 'État' : 'Condition'} : <span className={`font-medium ${CONDITION_COLORS[aiResult.condition] || 'text-cream'}`}>{aiResult.condition}</span>
+              </p>
+              {aiResult.detected_issues?.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {aiResult.detected_issues.map((iss, i) => (
+                    <span key={i} className="text-[10px] px-2 py-1 border border-red-900/40 text-red-400/80 font-sans">{iss}</span>
+                  ))}
+                </div>
+              )}
+
+              {/* Les travaux */}
+              <p className="text-[9px] tracking-[0.3em] uppercase text-gold/60 font-sans mb-2">{lang === 'fr' ? 'Les travaux à réaliser' : 'The work to be done'}</p>
+              <p className="text-cream-muted text-sm font-sans leading-relaxed mb-6">{aiResult.repair_explanation || aiResult.expert_note}</p>
+
+              {/* Prix approximatif */}
+              <div className="border border-gold/30 bg-gold/5 p-5 flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-[9px] tracking-[0.3em] uppercase text-gold/70 font-sans">{lang === 'fr' ? 'Prix approximatif' : 'Approximate price'}</p>
+                  <p className="text-cream-muted text-xs font-sans mt-1">{RECO_LABEL[aiResult.recommended_service] || (lang === 'fr' ? 'Prestation recommandée' : 'Recommended service')}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-4xl font-serif text-gold">~{RECO_PRICE[aiResult.recommended_service] || 300}</p>
+                  <p className="text-gold/70 font-sans text-sm">CHF</p>
+                </div>
+              </div>
+
+              <Link
+                href="/contact"
+                className="block w-full py-4 text-center text-[11px] tracking-[0.2em] uppercase font-sans font-semibold bg-gold text-obsidian hover:bg-gold-light transition-all duration-300"
+              >
+                {lang === 'fr' ? 'Obtenir un devis précis' : 'Get a precise quote'}
+              </Link>
+              <p className="text-cream-muted/50 text-[11px] font-sans text-center mt-3">
+                {lang === 'fr' ? 'Estimation indicative — devis final après examen physique.' : 'Indicative estimate — final quote after physical inspection.'}
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }
