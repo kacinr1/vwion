@@ -9,14 +9,13 @@ import { caseStudies } from '@/data/caseStudies'
 type Shot = { src: string; caption: { fr: string; en: string } }
 
 const atelier: Shot[] = [
-  { src: '/gallery/atelier/emeraude.jpg', caption: { fr: 'Boîtier serti émeraudes', en: 'Emerald-set case' } },
-  { src: '/gallery/atelier/daniel-roth.jpg', caption: { fr: 'Daniel Roth, chronographe', en: 'Daniel Roth, chronograph' } },
-  { src: '/gallery/atelier/couronne.jpg', caption: { fr: 'Couronne vissée — détail', en: 'Screw-down crown — detail' } },
-  { src: '/gallery/atelier/nautilus-or.jpg', caption: { fr: 'Patek Philippe Nautilus, or jaune', en: 'Patek Philippe Nautilus, yellow gold' } },
-  { src: '/gallery/atelier/caseback.jpg', caption: { fr: 'Fond masqué avant polissage', en: 'Caseback masked before polishing' } },
-  { src: '/gallery/atelier/rubis.jpg', caption: { fr: 'Lunette sertie rubis, or rose', en: 'Ruby-set bezel, rose gold' } },
-  { src: '/gallery/atelier/corne-or.jpg', caption: { fr: 'Anglage des cornes, or rose', en: 'Lug bevelling, rose gold' } },
-  { src: '/gallery/atelier/gmt.jpg', caption: { fr: 'Rolex GMT-Master II', en: 'Rolex GMT-Master II' } },
+  { src: '/gallery/atelier/aquanaut-mouvement.jpg', caption: { fr: 'Mouvement Patek, or rose — rotor Calatrava', en: 'Patek movement, rose gold — Calatrava rotor' } },
+  { src: '/gallery/atelier/lunette-emeraude.jpg', caption: { fr: 'Lunette sertie émeraudes, remise à neuf', en: 'Emerald-set bezel, refurbished' } },
+  { src: '/gallery/atelier/daniel-roth.jpg', caption: { fr: 'Daniel Roth, chronographe — cadran noir', en: 'Daniel Roth chronograph — black dial' } },
+  { src: '/gallery/atelier/chrono-vintage.jpg', caption: { fr: 'Chronographe vintage en restauration', en: 'Vintage chronograph under restoration' } },
+  { src: '/gallery/atelier/masquage-kapton.jpg', caption: { fr: 'Masquage Kapton avant polissage', en: 'Kapton masking before polishing' } },
+  { src: '/gallery/atelier/boitier-touret.jpg', caption: { fr: 'Boîtier acier au touret', en: 'Steel case at the polishing wheel' } },
+  { src: '/gallery/atelier/couronne-detail.jpg', caption: { fr: 'Couronne vissée — détail poli', en: 'Screw-down crown — polished detail' } },
 ]
 
 export default function GaleriePage() {
@@ -112,7 +111,7 @@ export default function GaleriePage() {
         <div className="max-w-6xl mx-auto">
           <ScrollReveal className="text-center mb-14">
             <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">{lang === 'fr' ? 'Savoir-faire' : 'Craftsmanship'}</span>
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-cream mt-4 tracking-[-0.02em]">{lang === 'fr' ? "L'atelier" : 'The atelier'}</h2>
+            <h2 className="text-4xl md:text-5xl font-serif font-light text-cream mt-4 tracking-[-0.02em]">{lang === 'fr' ? "L'art de nos ateliers" : 'The art of our atelier'}</h2>
             <div className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-6" />
           </ScrollReveal>
 

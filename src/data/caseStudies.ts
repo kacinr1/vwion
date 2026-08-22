@@ -65,4 +65,22 @@ export const caseStudies: CaseStudy[] = [
       en: 'Rose gold revived, crisp satin / polish contrast, watch ready to be worn or passed on.',
     },
   },
+  {
+    watch: 'Sauvetage d\'un mouvement',
+    ref: { fr: 'Dérouillage · remise en état', en: 'Rust removal · overhaul' },
+    avant: '/gallery/derouillage-avant.jpg',
+    apres: '/gallery/derouillage-apres.jpg',
+    problem: {
+      fr: 'Mouvement fortement corrodé après infiltration d\'humidité : rouille sur le rouage et les ponts, marche compromise.',
+      en: 'Movement heavily corroded after moisture ingress: rust on the gear train and bridges, running compromised.',
+    },
+    intervention: {
+      fr: 'Démontage complet, dérouillage et nettoyage pièce par pièce, remplacement des composants irrécupérables, remontage et huilage.',
+      en: 'Full disassembly, rust removal and part-by-part cleaning, replacement of unrecoverable parts, reassembly and oiling.',
+    },
+    result: {
+      fr: 'Mécanisme sauvé et remis en marche, surfaces assainies — une pièce que l\'on croyait perdue retrouve vie.',
+      en: 'Mechanism saved and running again, surfaces cleaned — a piece thought lost is brought back to life.',
+    },
+  },
 ]
