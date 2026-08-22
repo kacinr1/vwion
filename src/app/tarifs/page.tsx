@@ -32,6 +32,7 @@ export default function TarifsPage() {
   const [selectedService, setSelectedService] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const [demontage, setDemontage] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleImageChange = (file: File) => {
@@ -87,7 +88,8 @@ export default function TarifsPage() {
     }
   }
 
-  const total = selectedService ? SERVICE_PRICES[selectedService as keyof typeof SERVICE_PRICES] : 0
+  const base = selectedService ? SERVICE_PRICES[selectedService as keyof typeof SERVICE_PRICES] : 0
+  const total = base + (demontage ? 100 : 0)
 
   const CONDITION_COLORS: Record<string, string> = {
     excellent: 'text-emerald-400',
@@ -309,9 +311,37 @@ export default function TarifsPage() {
                 </div>
               </div>
 
+              {/* Option démontage / montage */}
+              <button
+                type="button"
+                onClick={() => setDemontage((v) => !v)}
+                className={`text-left p-5 border transition-all duration-300 ${
+                  demontage ? 'border-gold bg-gold/5' : 'border-gold/15 bg-obsidian-card hover:border-gold/40'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-4 h-4 border flex items-center justify-center ${demontage ? 'border-gold bg-gold' : 'border-gold/30'}`}>
+                      {demontage && <span className="text-obsidian text-xs">✓</span>}
+                    </div>
+                    <div>
+                      <p className={`font-sans text-sm font-medium ${demontage ? 'text-gold' : 'text-cream'}`}>Démontage / montage complet</p>
+                      <p className="text-cream-muted text-xs font-sans mt-0.5">Ouverture du boîtier, dépose et repose du mouvement</p>
+                    </div>
+                  </div>
+                  <span className="text-gold font-serif text-lg ml-4 whitespace-nowrap">+100 CHF</span>
+                </div>
+              </button>
+
+              {/* Livraison gratuite */}
+              <div className="flex items-center gap-3 text-cream-muted text-sm font-sans">
+                <span className="text-gold">◆</span>
+                <span>Livraison <span className="text-cream">gratuite</span> en main propre</span>
+              </div>
+
               {/* Total */}
               <AnimatePresence>
-                {selectedService && (
+                {(selectedService || demontage) && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -321,7 +351,10 @@ export default function TarifsPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-[9px] tracking-[0.3em] uppercase text-gold/70 font-sans">{t.pricing.totalLabel}</p>
-                        <p className="text-cream-muted text-xs font-sans mt-1">* Estimation indicative</p>
+                        {demontage && (
+                          <p className="text-cream-muted text-xs font-sans mt-1">dont démontage / montage +100 CHF</p>
+                        )}
+                        <p className="text-cream-muted text-xs font-sans mt-1">Livraison gratuite en main propre · estimation indicative</p>
                       </div>
                       <div className="text-right">
                         <p className="text-4xl font-serif text-gold">{total}</p>
@@ -396,6 +429,13 @@ export default function TarifsPage() {
               </ScrollReveal>
             ))}
           </div>
+
+          <ScrollReveal className="mt-10">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-x-8 gap-y-3 text-sm font-sans text-cream-muted">
+              <span className="flex items-center gap-2"><span className="text-gold">◆</span> Démontage / montage complet : <span className="text-cream">+100 CHF</span></span>
+              <span className="flex items-center gap-2"><span className="text-gold">◆</span> Livraison <span className="text-cream">gratuite</span> en main propre</span>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
       {/* Pop-up résultat d'estimation */}
@@ -460,6 +500,12 @@ export default function TarifsPage() {
                   <p className="text-gold/70 font-sans text-sm">CHF</p>
                 </div>
               </div>
+
+              <p className="text-cream-muted text-[11px] font-sans text-center mb-4">
+                {lang === 'fr'
+                  ? 'Démontage / montage +100 CHF si nécessaire · Livraison gratuite en main propre'
+                  : 'Disassembly / reassembly +100 CHF if needed · Free hand delivery'}
+              </p>
 
               <Link
                 href="/contact"
