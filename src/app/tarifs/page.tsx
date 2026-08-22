@@ -14,6 +14,7 @@ type AIResult = {
   detected_issues: string[]
   recommended_service: string
   expert_note: string
+  repair_explanation: string
   confidence: string
 }
 
@@ -58,17 +59,21 @@ export default function TarifsPage() {
       fd.append('description', description)
 
       const res = await fetch('/api/analyze-watch', { method: 'POST', body: fd })
-      if (!res.ok) throw new Error('API error')
-      const data: AIResult = await res.json()
-      setAiResult(data)
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data?.message || "Erreur lors de l'analyse. Veuillez réessayer.")
+        return
+      }
+      const result = data as AIResult
+      setAiResult(result)
 
       const svcMap: Record<string, string> = {
         lustration: 'lustration',
         remise_a_neuf: 'remise',
         rebouchage_laser: 'laser',
       }
-      if (data.recommended_service && svcMap[data.recommended_service]) {
-        setSelectedService(svcMap[data.recommended_service])
+      if (result.recommended_service && svcMap[result.recommended_service]) {
+        setSelectedService(svcMap[result.recommended_service])
       }
     } catch {
       setError("Erreur lors de l'analyse. Veuillez réessayer.")
@@ -249,6 +254,13 @@ export default function TarifsPage() {
                       <div className="border-t border-gold/10 pt-4">
                         <p className="text-[8px] tracking-widest uppercase text-gold/60 font-sans mb-2">Note expert</p>
                         <p className="text-cream-muted font-sans text-sm italic leading-relaxed">{aiResult.expert_note}</p>
+                      </div>
+                    )}
+
+                    {aiResult.repair_explanation && (
+                      <div className="border-t border-gold/10 pt-4 mt-4">
+                        <p className="text-[8px] tracking-widest uppercase text-gold/60 font-sans mb-2">La réparation</p>
+                        <p className="text-cream-muted font-sans text-sm leading-relaxed">{aiResult.repair_explanation}</p>
                       </div>
                     )}
                   </motion.div>

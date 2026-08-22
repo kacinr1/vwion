@@ -1,8 +1,17 @@
 import Anthropic from '@anthropic-ai/sdk'
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
 export async function POST(request: Request) {
+  // Garde : sans vraie clé, on renvoie une erreur claire (pas un 500 opaque).
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey || apiKey.startsWith('your_') || apiKey.length < 20) {
+    console.error('[analyze-watch] ANTHROPIC_API_KEY manquante ou invalide')
+    return Response.json(
+      { error: 'not_configured', message: "L'analyse IA n'est pas encore activée. Décrivez votre montre ci-dessous ou contactez-nous directement pour une estimation." },
+      { status: 503 },
+    )
+  }
+  const client = new Anthropic({ apiKey })
+
   try {
     const formData = await request.formData()
     const imageFile = formData.get('image') as File | null
@@ -36,6 +45,7 @@ Retourne UNIQUEMENT un JSON valide avec cette structure exacte:
   "detected_issues": ["liste des défauts visibles"],
   "recommended_service": "lustration | remise_a_neuf | rebouchage_laser",
   "expert_note": "commentaire expert court (1-2 phrases)",
+  "repair_explanation": "explication concrète de la restauration recommandée pour CE modèle : ce qui sera réalisé à l'atelier, pourquoi, et le résultat attendu. 2 à 3 phrases, ton d'expert horloger rassurant, en français.",
   "confidence": "high | medium | low"
 }`,
           },
@@ -56,6 +66,7 @@ Retourne UNIQUEMENT un JSON valide avec cette structure exacte:
   "detected_issues": ["liste des défauts mentionnés"],
   "recommended_service": "lustration | remise_a_neuf | rebouchage_laser",
   "expert_note": "commentaire expert court (1-2 phrases)",
+  "repair_explanation": "explication concrète de la restauration recommandée pour CE modèle : ce qui sera réalisé à l'atelier, pourquoi, et le résultat attendu. 2 à 3 phrases, ton d'expert horloger rassurant, en français.",
   "confidence": "high | medium | low"
 }`,
       })
@@ -63,7 +74,7 @@ Retourne UNIQUEMENT un JSON valide avec cette structure exacte:
 
     const response = await client.messages.create({
       model: 'claude-opus-4-8',
-      max_tokens: 500,
+      max_tokens: 800,
       messages,
     })
 
