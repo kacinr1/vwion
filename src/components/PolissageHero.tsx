@@ -19,14 +19,14 @@ export const SECTIONS = [
   },
   {
     id: 'fond',
-    poster: '/posters/fond.jpg',
-    label: 'FOND',
+    poster: '/hero/touret-poster.jpg',
+    label: 'POLISSAGE',
     number: '02',
     title: 'Révélation',
     accent: 'Microscopique',
-    desc: "Le fond de boîte, invisible au porteur mais obsession de l'artisan. Miroir parfait ou finition satinée — l'exigence est absolue.",
+    desc: "Le boîtier épousé au touret, surface après surface. La matière s'efface pour révéler le miroir — geste ancestral, précision absolue.",
     videoUrl:
-      'https://cms-toolkit-artifacts.artlist.io/content/-t-e-x-t_-t-o_-v-i-d-e-o-v1/media__3/-t-e-x-t_-t-o_-v-i-d-e-o-fa6842cd-5114-46b3-8de5-b82e6b180c29.mp4?Expires=2100207154&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=SlA0U66aWBMyEuo60NLH-CNQcwx3c71e4aWO9h5Ib0bZAkjbyZ0HgiHnKBTqIyH9bLWUE6bkw5eYx71cFh~HIoocTLsEtk2ymhW1BX6zKddePlMBB4Y3yFux8vGpccmfy1guQ8sxPKIXw366f2ajBlIUPEumsgck3tGJZU0b1SmPtr4DSshhPp2qYH6vmm2h~hQlsPO3gXCnuulmIGZKPgpoR75XZszq7tN1LJtraTqmo58t2mIYKfGNbZMYsgqoXDg1JyyMNo~wFJgOjq8n48qgdwVLzoJ50bwjty4T9DIsncrtQupdNZkSPpFeTOLS2vXlzQ5RuoS6lh~yUJNK9Q__',
+      '/hero/touret.mp4',
     align: 'right' as const,
   },
   {
