@@ -18,6 +18,11 @@ const atelier: Shot[] = [
   { src: '/gallery/atelier/couronne-detail.jpg', caption: { fr: 'Couronne vissée — détail poli', en: 'Screw-down crown — polished detail' } },
 ]
 
+const videos: { src: string; poster: string; caption: { fr: string; en: string } }[] = [
+  { src: '/gallery/video/starbuck-1.mp4', poster: '/gallery/video/starbuck-1.jpg', caption: { fr: 'Rolex « Starbuck » — boîtier poli miroir', en: 'Rolex "Starbuck" — mirror-polished case' } },
+  { src: '/gallery/video/starbuck-2.mp4', poster: '/gallery/video/starbuck-2.jpg', caption: { fr: 'Bracelet Oyster — finition polie', en: 'Oyster bracelet — polished finish' } },
+]
+
 export default function GaleriePage() {
   const { t, lang } = useLang()
   const reduce = useReducedMotion()
@@ -103,6 +108,34 @@ export default function GaleriePage() {
               </article>
             </ScrollReveal>
           ))}
+        </div>
+      </section>
+
+      {/* En mouvement — vidéos, arrière-plan flouté par la vidéo elle-même */}
+      <section className="py-20 px-6 bg-obsidian">
+        <div className="max-w-5xl mx-auto">
+          <ScrollReveal className="text-center mb-12">
+            <span className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans">{lang === 'fr' ? 'En atelier' : 'At the atelier'}</span>
+            <h2 className="text-4xl md:text-5xl font-serif font-light text-cream mt-4 tracking-[-0.02em]">{lang === 'fr' ? 'En mouvement' : 'In motion'}</h2>
+            <div className="w-12 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-6" />
+          </ScrollReveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            {videos.map((v, i) => (
+              <ScrollReveal key={v.src} delay={i * 0.06}>
+                <figure className="relative aspect-[4/5] overflow-hidden bg-obsidian border border-gold/15">
+                  {/* Fond : copie agrandie et floutée de la vidéo */}
+                  {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                  <video aria-hidden src={v.src} loop muted autoPlay playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl brightness-[0.4]" />
+                  {/* Premier plan : vidéo nette, contenue */}
+                  {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                  <video src={v.src} poster={v.poster} loop muted autoPlay playsInline preload="metadata" className="absolute inset-0 w-full h-full object-contain" />
+                  <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 z-10 p-4 pt-10 bg-gradient-to-t from-obsidian/90 via-obsidian/30 to-transparent">
+                    <span className="block text-[10px] tracking-[0.15em] uppercase text-cream font-sans">{v.caption[lang]}</span>
+                  </figcaption>
+                </figure>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
 
