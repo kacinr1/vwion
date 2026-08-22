@@ -65,6 +65,7 @@ const localBusinessJsonLd = {
   telephone: BUSINESS.phone,
   email: BUSINESS.email,
   url: SITE_URL,
+  sameAs: ['https://www.tiktok.com/@vwionartisan'],
   image: `${SITE_URL}/opengraph-image`,
   priceRange: '$$$',
   areaServed: 'Genève et Suisse romande',

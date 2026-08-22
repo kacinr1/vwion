@@ -61,6 +61,14 @@ export default function Footer() {
               <p>{t.contact.info.hours}</p>
               <p>{t.footer.byAppointment}</p>
             </address>
+            <a
+              href="https://www.tiktok.com/@vwionartisan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex items-center gap-2 text-[11px] tracking-[0.15em] uppercase text-cream-muted hover:text-gold transition-colors font-sans"
+            >
+              <span className="text-gold">▸</span> TikTok · @vwionartisan
+            </a>
           </div>
         </div>
 
