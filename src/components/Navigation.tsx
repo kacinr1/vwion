@@ -35,9 +35,13 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
         {/* Logo */}
-        <Link href="/" className="flex flex-col leading-none">
-          <span className="text-2xl font-serif tracking-[0.3em] text-cream font-light">VWION</span>
-          <span className="text-[9px] tracking-[0.4em] text-gold uppercase font-sans mt-0.5">Atelier Horloger</span>
+        <Link href="/" className="flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/vwion-emblem.svg" alt="" aria-hidden="true" className="h-11 w-11" />
+          <span className="flex flex-col leading-none">
+            <span className="text-2xl font-serif tracking-[0.3em] text-cream font-light">VWION</span>
+            <span className="text-[9px] tracking-[0.4em] text-gold uppercase font-sans mt-0.5">Atelier Horloger</span>
+          </span>
         </Link>
 
         {/* Desktop nav */}

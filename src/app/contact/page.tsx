@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import ScrollReveal from '@/components/ScrollReveal'
 import { useLang } from '@/context/LanguageContext'
 import { trackEvent } from '@/lib/analytics'
-import { BUSINESS, BUSINESS_ADDRESS, MAPS_DIRECTIONS, MAPS_EMBED } from '@/lib/business'
+import { BUSINESS, BUSINESS_ADDRESS } from '@/lib/business'
 
 export default function ContactPage() {
   const { t, lang } = useLang()
@@ -174,41 +174,16 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Carte + itinéraire */}
+      {/* Atelier sur rendez-vous */}
       <section className="pb-24 px-6 bg-obsidian-soft">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <p className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans mb-2">
-                {lang === 'fr' ? 'Nous situer' : 'Find us'}
-              </p>
-              <p className="text-cream-muted font-sans text-sm">{BUSINESS_ADDRESS}</p>
-            </div>
-            <a
-              href={MAPS_DIRECTIONS}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackEvent('click_directions')}
-              className="px-6 py-3 text-[10px] tracking-[0.25em] uppercase font-sans bg-gold text-obsidian font-semibold hover:bg-gold-light transition-colors whitespace-nowrap"
-            >
-              {lang === 'fr' ? 'Itinéraire' : 'Directions'}
-            </a>
-          </div>
-          <div className="border border-gold/20 overflow-hidden">
-            <iframe
-              title={lang === 'fr' ? 'Carte de l\'atelier VWION à Genève' : 'Map of the VWION atelier in Geneva'}
-              src={MAPS_EMBED}
-              width="100%"
-              height="360"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              style={{ border: 0, filter: 'grayscale(0.4) contrast(1.05)' }}
-            />
-          </div>
-          <p className="text-cream/40 text-xs font-sans mt-3">
+        <div className="max-w-6xl mx-auto text-center">
+          <p className="text-[10px] tracking-[0.4em] uppercase text-gold font-sans mb-3">
+            {lang === 'fr' ? 'Nous rencontrer' : 'Meet us'}
+          </p>
+          <p className="text-cream-muted font-sans text-sm max-w-xl mx-auto">
             {lang === 'fr'
-              ? 'Atelier accessible sur rendez-vous. Adresse exacte confirmée lors de la prise de rendez-vous.'
-              : 'Atelier accessible by appointment. Exact address confirmed when booking.'}
+              ? 'Atelier à Genève, accessible uniquement sur rendez-vous. Les modalités sont communiquées lors de la confirmation.'
+              : 'Atelier in Geneva, by appointment only. Details are shared upon booking confirmation.'}
           </p>
         </div>
       </section>

@@ -1,5 +1,6 @@
 import { Resend } from 'resend'
 import { BUSINESS } from '@/lib/business'
+import { ownerNotificationEmail, clientConfirmationEmail, type ContactData } from '@/lib/email-templates'
 
 // Validation helpers
 function isValidEmail(email: string): boolean {
@@ -59,54 +60,40 @@ export async function POST(request: Request) {
   const from = process.env.CONTACT_FROM || 'VWION Contact <noreply@send.vwion.ch>'
   const to = process.env.CONTACT_INBOX || 'kacinr1@gmail.com'
 
+  const contact: ContactData = { name, email, phone, watch, message }
+
   try {
+    // 4a. Notification interne — critique : son échec fait échouer la requête.
+    const owner = ownerNotificationEmail(contact)
     const { error } = await resend.emails.send({
       from,
       to: [to],
-      replyTo: email,
-      subject: `[VWION] Demande de devis — ${watch}`,
-      html: `
-        <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
-          <div style="border-bottom: 2px solid #c9a84c; padding-bottom: 16px; margin-bottom: 24px;">
-            <h2 style="margin: 0; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase;">
-              VWION — Nouvelle demande de contact
-            </h2>
-          </div>
-
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="padding: 8px 0; font-size: 13px; color: #666; width: 160px; vertical-align: top; text-transform: uppercase; letter-spacing: 0.05em;">Nom</td>
-              <td style="padding: 8px 0; font-size: 14px;">${name}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-size: 13px; color: #666; vertical-align: top; text-transform: uppercase; letter-spacing: 0.05em;">Email</td>
-              <td style="padding: 8px 0; font-size: 14px;"><a href="mailto:${email}" style="color: #c9a84c;">${email}</a></td>
-            </tr>
-            ${phone ? `
-            <tr>
-              <td style="padding: 8px 0; font-size: 13px; color: #666; vertical-align: top; text-transform: uppercase; letter-spacing: 0.05em;">Téléphone</td>
-              <td style="padding: 8px 0; font-size: 14px;">${phone}</td>
-            </tr>` : ''}
-            <tr>
-              <td style="padding: 8px 0; font-size: 13px; color: #666; vertical-align: top; text-transform: uppercase; letter-spacing: 0.05em;">Montre</td>
-              <td style="padding: 8px 0; font-size: 14px; font-weight: bold;">${watch}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-size: 13px; color: #666; vertical-align: top; text-transform: uppercase; letter-spacing: 0.05em;">Message</td>
-              <td style="padding: 8px 0; font-size: 14px; line-height: 1.6; white-space: pre-wrap;">${message}</td>
-            </tr>
-          </table>
-
-          <div style="margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee; font-size: 12px; color: #999;">
-            Formulaire contact VWION · ${new Date().toLocaleDateString('fr-CH', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
-          </div>
-        </div>
-      `,
+      replyTo: email, // répondre à l'atelier = répondre au prospect
+      subject: owner.subject,
+      html: owner.html,
     })
 
     if (error) {
       console.error('[contact] Resend error:', error)
       return Response.json({ error: "Échec de l'envoi email. Réessayez ou contactez-nous directement." }, { status: 500 })
+    }
+
+    // 4b. Accusé de réception au client — best-effort : ne bloque pas la réponse.
+    // L'atelier a déjà été notifié ; un échec ici ne doit pas renvoyer une erreur au visiteur.
+    try {
+      const confirmation = clientConfirmationEmail(contact)
+      const { error: confirmError } = await resend.emails.send({
+        from,
+        to: [email],
+        replyTo: BUSINESS.email, // le client répond à l'adresse publique de l'atelier
+        subject: confirmation.subject,
+        html: confirmation.html,
+      })
+      if (confirmError) {
+        console.error('[contact] Resend confirmation error (non bloquant):', confirmError)
+      }
+    } catch (confirmErr) {
+      console.error('[contact] Confirmation inattendue (non bloquant):', confirmErr)
     }
 
     return Response.json({ success: true }, { status: 200 })

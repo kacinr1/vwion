@@ -59,16 +59,9 @@ const localBusinessJsonLd = {
     'Atelier de polissage et restauration de montres de luxe à Genève : Rolex, Patek Philippe, Audemars Piguet, Vacheron Constantin.',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: BUSINESS.street,
-    postalCode: BUSINESS.postalCode,
     addressLocality: BUSINESS.city,
     addressRegion: 'Genève',
     addressCountry: 'CH',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: BUSINESS.geo.lat,
-    longitude: BUSINESS.geo.lng,
   },
   telephone: BUSINESS.phone,
   email: BUSINESS.email,
